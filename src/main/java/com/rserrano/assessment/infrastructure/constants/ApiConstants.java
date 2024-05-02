@@ -1,4 +1,4 @@
-package com.rserrano.assessment.constants;
+package com.rserrano.assessment.infrastructure.constants;
 
 public class ApiConstants {
 

@@ -1,4 +1,4 @@
-package com.rserrano.assessment.model;
+package com.rserrano.assessment.domain.model;
 
 public enum CurrencyIsoCode {
     EUR("EUR"),
