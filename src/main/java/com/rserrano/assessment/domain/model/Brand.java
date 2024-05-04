@@ -21,8 +21,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@EqualsAndHashCode
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

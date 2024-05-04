@@ -11,6 +11,7 @@ import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 public class PriceRepositoryH2Db implements PriceRepository {
@@ -19,16 +20,26 @@ public class PriceRepositoryH2Db implements PriceRepository {
     private EntityManager entityManager;
 
     @Override
-    public Price findPriceByDateTimeAndProductIdAndBrandId(LocalDateTime desiredDateTime, Long productId, Long brandId) {
+    public Optional<Price> findPriceByDateTimeAndProductIdAndBrandId(
+            LocalDateTime desiredDateTime,
+            Long productId, Long brandId) {
+
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Price> query = builder.createQuery(Price.class);
-
         Root<Price> price = query.from(Price.class);
-        Predicate dateInRange = builder.between(builder.literal(desiredDateTime), price.get("startDateTime"), price.get("endDateTime"));
+
+        Predicate dateInRange =
+                builder.between(
+                        builder.literal(desiredDateTime),
+                        price.get("startDateTime"),
+                        price.get("endDateTime")
+                );
         Predicate productMatch = builder.equal(price.get("product").get("id"), productId);
         Predicate brandMatch = builder.equal(price.get("brand").get("id"), brandId);
-        query.where(dateInRange, productMatch, brandMatch);
 
-        return entityManager.createQuery(query).getSingleResult();
+        query.where(builder.and(dateInRange, productMatch, brandMatch));
+        query.orderBy(builder.desc(price.get("priority")));
+
+        return entityManager.createQuery(query).getResultList().stream().findFirst();
     }
 }

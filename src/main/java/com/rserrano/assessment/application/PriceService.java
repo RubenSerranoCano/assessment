@@ -1,7 +1,6 @@
 package com.rserrano.assessment.application;
 
 import com.rserrano.assessment.domain.model.Price;
-import com.rserrano.assessment.presentation.dto.FindPriceResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
