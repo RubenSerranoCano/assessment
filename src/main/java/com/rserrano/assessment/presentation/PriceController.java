@@ -3,7 +3,8 @@ package com.rserrano.assessment.presentation;
 import com.rserrano.assessment.application.PriceService;
 import com.rserrano.assessment.domain.model.Price;
 import com.rserrano.assessment.infrastructure.constants.DateConstants;
-import com.rserrano.assessment.presentation.dto.FindPriceResponseDto;
+import com.rserrano.assessment.presentation.dto.GetPriceDetailsResponseDto;
+import com.rserrano.assessment.presentation.dto.mapper.GetPriceDetailsResponseDtoMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,9 +26,11 @@ import static com.rserrano.assessment.infrastructure.constants.ApiConstants.API_
 public class PriceController {
 
     private final PriceService priceService;
+    private final GetPriceDetailsResponseDtoMapper getPriceDetailsResponseDtoMapper;
 
-    PriceController(PriceService priceService) {
+    PriceController(PriceService priceService, GetPriceDetailsResponseDtoMapper getPriceDetailsResponseDtoMapper) {
         this.priceService = priceService;
+        this.getPriceDetailsResponseDtoMapper = getPriceDetailsResponseDtoMapper;
     }
 
     @GetMapping("/get-price-details")
@@ -41,7 +44,7 @@ public class PriceController {
             @ApiResponse(responseCode = "200", description = "The price details have been successfully retrieved."),
             @ApiResponse(responseCode = "204", description = "No price found given the provided parameters.")
     })
-    ResponseEntity<FindPriceResponseDto> getPriceByDateTimeAndProductIdAndBrandId(
+    ResponseEntity<GetPriceDetailsResponseDto> getPriceByDateTimeAndProductIdAndBrandId(
             @RequestParam @Parameter(description = "format: '" + DateConstants.DEFAULT_DATE_TIME_FORMAT + "'.") String dateTime,
             @RequestParam Long productId,
             @RequestParam Long brandId
@@ -53,15 +56,7 @@ public class PriceController {
         if (price == null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
         }
-        FindPriceResponseDto findPriceResponseDto = new FindPriceResponseDto();
-        findPriceResponseDto.setProductId(price.getProduct().getId());
-        findPriceResponseDto.setBrandId(price.getBrand().getId());
-        findPriceResponseDto.setPriceListName(price.getPriceList().getName());
-        findPriceResponseDto.setStartDateTime(price.getStartDateTime());
-        findPriceResponseDto.setEndDateTime(price.getEndDateTime());
-        findPriceResponseDto.setAmount(price.getAmount());
-
-        return ResponseEntity.ok().body(findPriceResponseDto);
+        return ResponseEntity.ok().body(getPriceDetailsResponseDtoMapper.buildDto(price));
     }
 
 }

@@ -3,14 +3,13 @@ package com.rserrano.assessment.presentation.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class FindPriceResponseDto {
+public class GetPriceDetailsResponseDto {
 
     private Long productId;
     private Long brandId;
