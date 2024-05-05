@@ -4,6 +4,10 @@ import com.rserrano.assessment.application.PriceService;
 import com.rserrano.assessment.domain.model.Price;
 import com.rserrano.assessment.infrastructure.constants.DateConstants;
 import com.rserrano.assessment.presentation.dto.FindPriceResponseDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,18 +30,22 @@ public class PriceController {
         this.priceService = priceService;
     }
 
-    @GetMapping("/test")
-    ResponseEntity<String> test() {
-        return ResponseEntity.ok().body("This is a response!");
-    }
-
-    @GetMapping("/get-price")
+    @GetMapping("/get-price-details")
+    @Operation(
+            summary = "Get the price details on a given time for a certain product and brand",
+            description =
+                    "Given a desired date and time, the product id and the brand id, returns the price details. " +
+                    "In case of an overlap in the dates, it will return the price with the highest priority"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "The price details have been successfully retrieved."),
+            @ApiResponse(responseCode = "204", description = "No price found given the provided parameters.")
+    })
     ResponseEntity<FindPriceResponseDto> getPriceByDateTimeAndProductIdAndBrandId(
-            @RequestParam String dateTime,
+            @RequestParam @Parameter(description = "format: '" + DateConstants.DEFAULT_DATE_TIME_FORMAT + "'.") String dateTime,
             @RequestParam Long productId,
             @RequestParam Long brandId
     ) {
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DateConstants.DEFAULT_DATE_TIME_FORMAT);
         LocalDateTime desiredDateTime = LocalDateTime.parse(dateTime, formatter);
 
