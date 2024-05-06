@@ -68,7 +68,7 @@ These are the technologies used in this project
 # Review instructions
 Run the application so that the Swagger UI and H2 console are available, you can check both at [localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html#/) and [localhost:8080/h2-console/login.jsp](http://localhost:8080/h2-console/) (the connection details are in application.properties).
 
-Run the tests by either using mvn test or by running the with IntelliJ IDEA.
+Run the tests by either using mvn test or by running them with IntelliJ IDEA.
 
 These were the tools used to develop the project
 - IntelliJ IDEA
