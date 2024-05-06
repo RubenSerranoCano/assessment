@@ -13,10 +13,12 @@ This repository hosts a project whose purpose is to facilitate the evaluation of
 - Swagger UI and YAML REST API Docs
 - Acceptance tests to ensure propper functionality
 - Layered architecture applying SOLID principles inspired by hexagonal architecture, ddd and clean architecture
+- Relational database schema
 
 # Requirements
-In order to review the code, run it and perform the acceptance tests, it's recommended to have the following tools 
+In order to review the code, run it and perform the acceptance tests, you will need the following tools 
 - Java 17
+- Maven 3.6.3 or
 - IntelliJ IDEA (Community edition will suffice)
 - (Optional) Git
 
@@ -50,9 +52,10 @@ The **Infrastructure Layer** supports every other layer by providing technical c
 - **Configuration and Utils**: This package contains application configuration files and utility classes or constants used across the application. In this particular instance, there is no need for
 configurations.
 
-# Technology and tools
+# Technologies and tools
 These are the technologies used in this project
 - Java 17
+- Maven 3.6.3
 - Spring Boot 3.2.5
 - Spring boot starter web
 - Spring boot starter data JPA
@@ -61,6 +64,11 @@ These are the technologies used in this project
 - H2
 - OpenAPI
 - Lombok
+
+# Review instructions
+Run the application so that the Swagger UI and H2 console are available, you can check both at [localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html#/) and [localhost:8080/h2-console/login.jsp](http://localhost:8080/h2-console/) (the connection details are in application.properties).
+
+Run the tests by either using mvn test or by running the with IntelliJ IDEA.
 
 These were the tools used to develop the project
 - IntelliJ IDEA
